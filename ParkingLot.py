@@ -1,8 +1,8 @@
 '''
 Reason to use the heap to get the nearest possible slot available so that we can get the possible lowest slot at O(1).
 Here we use an HashMap between the cars and slots thus making us easy to access so that.
--> Car[Registration_Number] to Slot[Avaliable_Slot_Number]
--> 
+-> Car[Registration_Number] to Slot[Avaliable_Slot_Number], vice versa
+-> Driver Age -> List[No.of parked cars with specific age]
 '''
 
 import heapq
