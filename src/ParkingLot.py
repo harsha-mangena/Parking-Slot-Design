@@ -22,16 +22,27 @@ class ParkingLot:
         self.age_registration_mapping = defaultdict(list)
         self.slot_car_mapping  = OrderedDict()
         self.available_parking_lots = []
-
+      
+    '''
+    Creating the new parking lot with given size.
+    And we will push the available slots(i.e all when the lot is created into min Heap)
+    '''
     def create_parking_lot(self, total_slots):
         print("Created a parking lot with {} slots".format(total_slots))
         for i in range(1, total_slots + 1):
             heapq.heappush(self.available_parking_lots, i)
         return True
 
+    '''
+    Check if the slot is available for parking, if not return none
+    '''
     def get_nearest_slot(self):
         return heapq.heappop(self.available_parking_lots) if self.available_parking_lots else None
 
+    '''
+    If the provided slot is already empty, do nothing.
+    else get the car from the slot and remove the car details and make the slot available 
+    '''
     def leave(self, slot_to_be_freed):
         found = None
         for registration_no, slot in self.registration_slot_mapping.items():
@@ -44,7 +55,7 @@ class ParkingLot:
             car_to_leave = self.slot_car_mapping[slot_to_be_freed]
             self.age_registration_mapping[car_to_leave.driver_age].remove(found)
             del self.slot_car_mapping[slot_to_be_freed]
-            print("Slot number {0} vacated, the car with vehicle registration number {1} left the space, the driver of the car was of age {2}"\
+            print("Slot number {0} vacated, the car with vehicle registration number {1} left the space, the driver of the car was of age {2}" 
                   .format(slot_to_be_freed, \
                           car_to_leave.registration_number, \
                           car_to_leave.driver_age))
@@ -55,6 +66,10 @@ class ParkingLot:
             print("slot is not in use")
             return False
 
+    '''
+    If all slots are full we can't park, return false
+    else get the available slot by using get_nearest_slot(), and store the details in hashMaps
+    '''
     def park(self, car):
         slot_no = self.get_nearest_slot()
         if slot_no is None:
@@ -67,13 +82,15 @@ class ParkingLot:
         self.age_registration_mapping[car.driver_age].append(car.registration_number)
         return slot_no
 
-    # Registration numbers of all cars of a specific age
+    '''
+    As we are using the hashMaps to store the slot allocated with respective to driver age, return that key(driver 
+    age)
+    '''
     def registration_numbers_for_cars_for_driver_age(self, driver_age):
         registration_numbers = self.age_registration_mapping[driver_age]
         print(", ".join(registration_numbers))
         return self.age_registration_mapping[driver_age]
 
-    # Slot numbers of all slots where a car of specific aged driver is parked
     def slot_numbers_for_cars_for_driver_age(self, driver_age):
         registration_numbers = self.age_registration_mapping[driver_age]
         slots = [self.registration_slot_mapping[reg_no] for reg_no in registration_numbers]
