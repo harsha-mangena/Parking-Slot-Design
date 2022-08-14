@@ -1,4 +1,4 @@
-from ParkingLot import ParkingLot, Car
+from src.ParkingLot import ParkingLot, Car
 parking_lot = ParkingLot()
 
 def get_commands_and_arguments_from_file(line):
@@ -40,7 +40,7 @@ def main(command_params):
         else:
           raise Exception("Wrong command")
   except:
-    raise Error("Please pass input file")
+    raise Exception("Please pass input file")
 
 if __name__ == "__main__":
-  main("input1.txt")
+  main("inputs/input1.txt")
